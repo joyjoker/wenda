@@ -1,6 +1,5 @@
 package com.nowcoder.controller;
 
-import com.nowcoder.model.Comment;
 import com.nowcoder.model.EntityType;
 import com.nowcoder.model.HostHolder;
 import com.nowcoder.service.CommentService;
