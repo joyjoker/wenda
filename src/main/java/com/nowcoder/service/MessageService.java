@@ -17,7 +17,7 @@ public class MessageService {
 
     public int addMessage(Message message) {
         message.setContent(sensitiveService.filter(message.getContent()));
-        return messageDAO.addMessage(message);
+        return messageDAO.addMessage(message) > 0 ? message.getId() : 0;
     }
 
     public List<Message> getConversationDetail(String conversationId, int offset, int limit) {
@@ -28,7 +28,7 @@ public class MessageService {
         return messageDAO.getConversationList(userId, offset, limit);
     }
 
-    public int getConvesationUnreadCount(int userId, String conversationId) {
-        return messageDAO.getConvesationUnreadCount(userId, conversationId);
+    public int getConversationUnreadCount(int userId, String conversationId) {
+        return messageDAO.getConversationUnreadCount(userId, conversationId);
     }
 }

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface LoginTicketDAO {
-    String TABLE_NAME = "login_ticket";
+    String TABLE_NAME = " login_ticket ";
     String INSERT_FIELDS = " user_id, expired, status, ticket ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 

@@ -20,6 +20,6 @@ public class SettingController {
     @RequestMapping(path = {"/setting"}, method = {RequestMethod.GET})
     @ResponseBody
     public String setting(HttpSession httpSession) {
-        return "Setting OK " + wendaService.getMessage(1);
+        return "Setting OK. " + wendaService.getMessage(1);
     }
 }

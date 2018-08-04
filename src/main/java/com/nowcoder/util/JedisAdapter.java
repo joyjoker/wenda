@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 public class JedisAdapter implements InitializingBean {
-    public static final Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
+    private static final Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
     private JedisPool pool;
     @Override
     public void afterPropertiesSet() throws Exception {

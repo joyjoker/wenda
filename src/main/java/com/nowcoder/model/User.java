@@ -7,7 +7,9 @@ public class User {
     private String salt;
     private String headUrl;
     //自定义构造方法
-    public User(){}
+    public User() {
+
+    }
 
 
     public User(String name) {

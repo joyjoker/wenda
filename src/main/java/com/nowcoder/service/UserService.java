@@ -24,6 +24,7 @@ public class UserService {
     //调用DAO层返回id查找的用户
     @Autowired
     private UserDAO userDAO;
+
     @Autowired
     private LoginTicketDAO loginTicketDAO;
 
@@ -40,18 +41,20 @@ public class UserService {
             map.put("msg", "用户名不能为空");
             return map;
         }
+
         if (StringUtils.isBlank(password)) {
             map.put("msg", "密码不能为空");
             return map;
         }
         //然后判断用户名是否已经存在
         User user = userDAO.selectByName(username);
+
         if (user != null) {
             map.put("msg", "用户名已经被注册");
             return map;
         }
 
-        //所有的检查完毕,将用户注册进来
+        //所有的检查完毕,将用户注册进来,密码强度
         user = new User();
         user.setName(username);
         user.setSalt(UUID.randomUUID().toString().substring(0, 5));
@@ -74,12 +77,14 @@ public class UserService {
             map.put("msg", "用户名不能为空");
             return map;
         }
+
         if (StringUtils.isBlank(password)) {
             map.put("msg", "密码不能为空");
             return map;
         }
         //然后判断用户名是否已经存在
         User user = userDAO.selectByName(username);
+
         if (user == null) {
             map.put("msg", "用户名不存在");
             return map;
@@ -94,6 +99,8 @@ public class UserService {
         String ticket = addLoginTicket(user.getId());
         //把ticket传到外面
         map.put("ticket", ticket);
+        //把用户传出,判断用户登录异常时有用
+        map.put("userId", user.getId());
         return map;
     }
 
@@ -107,7 +114,7 @@ public class UserService {
         date.setTime(date.getTime() + 1000*3600*24);
         ticket.setExpired(date);
         ticket.setStatus(0);
-        ticket.setTicket(UUID.randomUUID().toString().replace("-",""));
+        ticket.setTicket(UUID.randomUUID().toString().replaceAll("-", ""));
         //把ticket添加到数据库中
         loginTicketDAO.addTicket(ticket);
         return ticket.getTicket();

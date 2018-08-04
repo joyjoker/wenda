@@ -46,7 +46,7 @@ public class HomeController {
     }
 
     @RequestMapping(path = {"/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String index(Model model, @RequestParam(value = "pop", defaultValue = "0")int pop) {
+    public String index(Model model, @RequestParam(value = "pop", defaultValue = "0") int pop) {
         //获取问题传到model中
         model.addAttribute("vos", getQuestions(0,0,10));
         return "index";

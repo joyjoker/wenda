@@ -3,13 +3,13 @@ package com.nowcoder.model;
 import java.util.Date;
 
 public class Message {
-    int id;
-    int fromId;
-    int toId;
-    String content;
-    Date createdDate;
-    int hasRead;
-    String conversationId;
+    private int id;
+    private int fromId;
+    private int toId;
+    private String content;
+    private Date createdDate;
+    private int hasRead;
+    private String conversationId;
 
     public int getId() {
         return id;
@@ -62,11 +62,12 @@ public class Message {
     public String getConversationId() {
         if (fromId < toId) {
             return String.format("%d_%d", fromId, toId);
+        } else {
+            return String.format("%d_%d", toId, fromId);
         }
-        return String.format("%d_%d", toId, fromId);
     }
 
-    /*public void setConversationId(String conversationId) {
+    public void setConversationId(String conversationId) {
         this.conversationId = conversationId;
-    }*/
+    }
 }

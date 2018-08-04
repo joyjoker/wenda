@@ -3,13 +3,13 @@ package com.nowcoder.model;
 import java.util.Date;
 
 public class Comment {
-    int id;
-    String content;
-    int userId;
-    int entityId;
-    int entityType;
-    Date createdDate;
-    int status;
+    private int id;
+    private String content;
+    private int userId;
+    private int entityId;
+    private int entityType;
+    private Date createdDate;
+    private int status;
 
     public int getId() {
         return id;
