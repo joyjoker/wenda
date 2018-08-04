@@ -53,7 +53,6 @@ public class LoginController {
                 model.addAttribute("msg", map.get("msg"));
                 return "login";
             }
-
         } catch (Exception e) {
             logger.error("注册异常" + e.getMessage());
             model.addAttribute("msg", "服务器错误");
