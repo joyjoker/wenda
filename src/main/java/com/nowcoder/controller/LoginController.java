@@ -95,7 +95,6 @@ public class LoginController {
                 model.addAttribute("msg", map.get("msg"));
                 return "login";
             }
-
         } catch (Exception e) {
             logger.error("登陆异常" + e.getMessage());
             return "login";
