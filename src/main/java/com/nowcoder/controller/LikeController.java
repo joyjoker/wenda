@@ -8,10 +8,14 @@ import com.nowcoder.model.EntityType;
 import com.nowcoder.model.HostHolder;
 import com.nowcoder.service.CommentService;
 import com.nowcoder.service.LikeService;
+import com.nowcoder.service.MessageService;
 import com.nowcoder.util.WendaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class LikeController {
@@ -40,7 +44,6 @@ public class LikeController {
                 .setActorId(hostHolder.getUser().getId()).setEntityId(commentId)
                 .setEntityType(EntityType.ENTITY_COMMENT).setEntityOwnerId(comment.getUserId())
                 .setExt("questionId", String.valueOf(comment.getEntityId())));
-
 
         long likeCount = likeService.like(hostHolder.getUser().getId(), EntityType.ENTITY_COMMENT, commentId);
         return WendaUtil.getJSONString(0, String.valueOf(likeCount));

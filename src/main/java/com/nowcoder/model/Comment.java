@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Comment {
     private int id;
-    private String content;
     private int userId;
     private int entityId;
     private int entityType;
+    private String content;
     private Date createdDate;
     private int status;
 
@@ -17,14 +17,6 @@ public class Comment {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public int getUserId() {
@@ -49,6 +41,14 @@ public class Comment {
 
     public void setEntityType(int entityType) {
         this.entityType = entityType;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getCreatedDate() {

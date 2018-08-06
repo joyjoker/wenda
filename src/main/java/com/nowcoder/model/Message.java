@@ -2,6 +2,7 @@ package com.nowcoder.model;
 
 import java.util.Date;
 
+
 public class Message {
     private int id;
     private int fromId;

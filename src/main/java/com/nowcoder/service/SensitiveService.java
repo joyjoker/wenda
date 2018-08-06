@@ -13,12 +13,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 整个算法实现敏感词过滤
- * 只有filter()方法对外部使用
- * 其他方法为filter()方法服务
- */
-
 @Service
 public class SensitiveService implements InitializingBean {
 
@@ -29,9 +23,7 @@ public class SensitiveService implements InitializingBean {
      */
     private static final String DEFAULT_REPLACEMENT = "敏感词";
 
-    /**
-     * 构造出整个树
-     */
+
     private class TrieNode {
 
         /**
@@ -40,7 +32,6 @@ public class SensitiveService implements InitializingBean {
         private boolean end = false;
 
         /**
-         * 每个字符下面所有子节点
          * key下一个字符，value是对应的节点
          */
         private Map<Character, TrieNode> subNodes = new HashMap<>();
@@ -53,7 +44,7 @@ public class SensitiveService implements InitializingBean {
         }
 
         /**
-         * 获取当前节点下个节点
+         * 获取下个节点
          */
         TrieNode getSubNode(Character key) {
             return subNodes.get(key);
@@ -76,7 +67,7 @@ public class SensitiveService implements InitializingBean {
 
 
     /**
-     * 根节点,什么都不干
+     * 根节点
      */
     private TrieNode rootNode = new TrieNode();
 
@@ -93,8 +84,6 @@ public class SensitiveService implements InitializingBean {
 
     /**
      * 过滤敏感词
-     * 三个指针
-     * 最后实现
      */
     public String filter(String text) {
         if (StringUtils.isBlank(text)) {
@@ -146,12 +135,7 @@ public class SensitiveService implements InitializingBean {
         return result.toString();
     }
 
-    /**
-     *
-     * @param lineTxt
-     */
     private void addWord(String lineTxt) {
-        //第一个指针指向根节点
         TrieNode tempNode = rootNode;
         // 循环每个字节
         for (int i = 0; i < lineTxt.length(); ++i) {
@@ -176,11 +160,6 @@ public class SensitiveService implements InitializingBean {
         }
     }
 
-    /**
-     * 初始化
-     * 读取文本
-     * @throws Exception
-     */
 
     @Override
     public void afterPropertiesSet() throws Exception {

@@ -30,8 +30,7 @@ public class LoginController {
     EventProducer eventProducer;
 
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.POST})
-    public String reg(Model model,
-                      @RequestParam("username") String username,
+    public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
                       @RequestParam("next") String next,
                       @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
@@ -53,6 +52,7 @@ public class LoginController {
                 model.addAttribute("msg", map.get("msg"));
                 return "login";
             }
+
         } catch (Exception e) {
             logger.error("注册异常" + e.getMessage());
             model.addAttribute("msg", "服务器错误");
@@ -94,6 +94,7 @@ public class LoginController {
                 model.addAttribute("msg", map.get("msg"));
                 return "login";
             }
+
         } catch (Exception e) {
             logger.error("登陆异常" + e.getMessage());
             return "login";

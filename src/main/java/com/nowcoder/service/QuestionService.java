@@ -3,6 +3,7 @@ package com.nowcoder.service;
 import com.nowcoder.dao.QuestionDAO;
 import com.nowcoder.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
@@ -27,7 +28,6 @@ public class QuestionService {
         // 敏感词过滤
         question.setTitle(sensitiveService.filter(question.getTitle()));
         question.setContent(sensitiveService.filter(question.getContent()));
-        //如果增加题目成功,返回增加题目的ID
         return questionDAO.addQuestion(question) > 0 ? question.getId() : 0;
     }
 

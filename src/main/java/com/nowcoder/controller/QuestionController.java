@@ -1,10 +1,10 @@
 package com.nowcoder.controller;
 
+import com.nowcoder.async.EventModel;
+import com.nowcoder.async.EventProducer;
+import com.nowcoder.async.EventType;
 import com.nowcoder.model.*;
-import com.nowcoder.service.CommentService;
-import com.nowcoder.service.LikeService;
-import com.nowcoder.service.QuestionService;
-import com.nowcoder.service.UserService;
+import com.nowcoder.service.*;
 import com.nowcoder.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -26,16 +27,22 @@ public class QuestionController {
     QuestionService questionService;
 
     @Autowired
-    CommentService commentService;
-
-    @Autowired
     HostHolder hostHolder;
 
     @Autowired
     UserService userService;
 
     @Autowired
+    CommentService commentService;
+
+    @Autowired
+    FollowService followService;
+
+    @Autowired
     LikeService likeService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
     public String questionDetail(Model model, @PathVariable("qid") int qid) {
@@ -60,36 +67,53 @@ public class QuestionController {
 
         model.addAttribute("comments", comments);
 
+        List<ViewObject> followUsers = new ArrayList<ViewObject>();
+        // 获取关注的用户信息
+        List<Integer> users = followService.getFollowers(EntityType.ENTITY_QUESTION, qid, 20);
+        for (Integer userId : users) {
+            ViewObject vo = new ViewObject();
+            User u = userService.getUser(userId);
+            if (u == null) {
+                continue;
+            }
+            vo.set("name", u.getName());
+            vo.set("headUrl", u.getHeadUrl());
+            vo.set("id", u.getId());
+            followUsers.add(vo);
+        }
+        model.addAttribute("followUsers", followUsers);
+        if (hostHolder.getUser() != null) {
+            model.addAttribute("followed", followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, qid));
+        } else {
+            model.addAttribute("followed", false);
+        }
+
         return "detail";
     }
 
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
-    @ResponseBody//字符串是自己生成的
+    @ResponseBody
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content) {
-        //尝试将题目增加到服务器
         try {
             Question question = new Question();
-            //传进来的content
             question.setContent(content);
             question.setCreatedDate(new Date());
-            //传进来的title
             question.setTitle(title);
-            //如果用户没登录
             if (hostHolder.getUser() == null) {
                 question.setUserId(WendaUtil.ANONYMOUS_USERID);
                 // return WendaUtil.getJSONString(999);
             } else {
-                //设置用户ID
                 question.setUserId(hostHolder.getUser().getId());
             }
             if (questionService.addQuestion(question) > 0) {
-                //添加问题成功返回0
+                eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION)
+                        .setActorId(question.getUserId()).setEntityId(question.getId())
+                .setExt("title", question.getTitle()).setExt("content", question.getContent()));
                 return WendaUtil.getJSONString(0);
             }
         } catch (Exception e) {
             logger.error("增加题目失败" + e.getMessage());
         }
-        //直到最后增加失败返回1
         return WendaUtil.getJSONString(1, "失败");
     }
 

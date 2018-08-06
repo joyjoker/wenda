@@ -1,30 +1,21 @@
 package com.nowcoder.model;
 
+
 public class User {
     private int id;
     private String name;
     private String password;
     private String salt;
     private String headUrl;
-    //自定义构造方法
+
     public User() {
 
     }
-
-
     public User(String name) {
         this.name = name;
         this.password = "";
         this.salt = "";
         this.headUrl = "";
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -57,5 +48,13 @@ public class User {
 
     public void setHeadUrl(String headUrl) {
         this.headUrl = headUrl;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

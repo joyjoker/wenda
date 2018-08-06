@@ -5,10 +5,12 @@ import com.nowcoder.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class LikeService {
     @Autowired
     JedisAdapter jedisAdapter;
+
 
     public long getLikeCount(int entityType, int entityId) {
         String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);

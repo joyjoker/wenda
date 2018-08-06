@@ -7,9 +7,10 @@ import org.slf4j.LoggerFactory;
 import java.security.MessageDigest;
 import java.util.Map;
 
+
 public class WendaUtil {
     private static final Logger logger = LoggerFactory.getLogger(WendaUtil.class);
-    //匿名用户id
+
     public static int ANONYMOUS_USERID = 3;
     public static int SYSTEM_USERID = 4;
 
